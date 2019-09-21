@@ -1,0 +1,6 @@
+# ignore build directory
+build/
+build-linux/
+
+# ignore vscode settings
+.vscode/

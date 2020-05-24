@@ -1,0 +1,6 @@
+#define libcli_BUILD_DATE __DATE__ " " __TIME__
+
+#define libcli_VERSION_MAJOR @libcli_VERSION_MAJOR@
+#define libcli_VERSION_MINOR @libcli_VERSION_MINOR@
+#define libcli_VERSION_PATCH @libcli_VERSION_PATCH@
+#define libcli_VERSION "@libcli_VERSION@"

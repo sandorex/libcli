@@ -14,7 +14,7 @@
 
 #pragma once
 
-#if _WIN32
+#ifdef _WIN32
     // removes bloat from windows.h
     #define WIN32_LEAN_AND_MEAN
     #include <windows.h>
@@ -29,7 +29,7 @@ namespace libcli {
     class Error : public std::exception {
     protected:
         static inline uint64_t error() {
-#if _WIN32
+#ifdef _WIN32
             return GetLastError();
 #elif __linux__
             return errno;

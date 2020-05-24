@@ -18,8 +18,8 @@
 #include <vector>
 #include <iostream>
 
-#if defined(_WIN32)
-#else
+#ifdef _WIN32
+#elif __linux__
     #include <unistd.h>
     #include <fcntl.h>
     #include <termios.h>
@@ -30,7 +30,7 @@ using namespace libcli;
 Handle::~Handle() {}
 
 Handle Handle::from_terminal() {
-#if defined(_WIN32)
+#ifdef _WIN32
     // enable unicode support
     SetConsoleOutputCP(CP_UTF8);
     SetConsoleCP(CP_UTF8);
@@ -41,7 +41,7 @@ Handle Handle::from_terminal() {
     }
 
     return Handle(handle);
-#elif defined(__linux__)
+#elif __linux__
     const char* dev;
     int fd = -1;
 
@@ -73,7 +73,7 @@ Handle Handle::from_terminal() {
 }
 
 const Handle& Handle::write(const std::string_view& data) const {
-#if defined(_WIN32)
+#ifdef _WIN32
     // const auto dw_flags = MB_ERR_INVALID_CHARS;
 
     // // get the require buffer size
@@ -105,7 +105,7 @@ const Handle& Handle::write(const std::string_view& data) const {
         case ERROR_INVALID_HANDLE: throw ErrorInvalidHandle(error);
         default: throw Error(error);
     }
-#elif defined(__linux__)
+#elif __linux__
     // repeatedly try to write data (because of system interrupts)
     // NOTE ::write in this case is the C function write
     int result;

@@ -14,7 +14,7 @@
 
 #pragma once
 
-#if defined(_WIN32)
+#ifdef _WIN32
     // removes bloat from windows.h
     #define WIN32_LEAN_AND_MEAN
     #include <windows.h>
@@ -26,9 +26,9 @@
 #include <string>
 
 namespace libcli {
-#if defined(_WIN32)
+#ifdef _WIN32
    using RawHandle = HANDLE;
-#elif defined(__linux__)
+#elif __linux__
    using RawHandle = int;
 #endif
 
@@ -52,9 +52,9 @@ namespace libcli {
         // gets the handle from current terminal
         static Handle from_terminal();
 
-#if defined(_WIN32)
+#ifdef _WIN32
         // TODO create new terminal windows (maybe on linux too?)
-#elif defined(__linux__)
+#elif __linux__
         // creates handle from a file descriptor
         static Handle from_fd(int fd) {
             return Handle(fd);
@@ -66,7 +66,7 @@ namespace libcli {
     struct Position {
         int32_t x, y;
 
-#if defined(_WIN32)
+#ifdef _WIN32
         Position(const COORD& coord)
             : x(coord.X)
             , y(coord.Y) {
@@ -95,7 +95,7 @@ namespace libcli {
             , a(a) {
         }
 
-#if defined(_WIN32)
+#ifdef _WIN32
         Color(const COLORREF& color)
             : r(GetRValue(color))
             , g(GetGValue(color))

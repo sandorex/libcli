@@ -19,4 +19,5 @@
 #endif
 
 #include "libcli/common.hh"
+#include "libcli/handle.hh"
 #include "libcli/errors.hh"

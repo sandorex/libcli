@@ -32,37 +32,6 @@ namespace libcli {
    using RawHandle = int;
 #endif
 
-    class Handle {
-    private:
-        RawHandle _handle;
-
-    public:
-        Handle()
-            : _handle() {
-        }
-        explicit Handle(RawHandle handle)
-            : _handle(handle) {
-        }
-        ~Handle();
-
-        const RawHandle& operator*() const {
-            return _handle;
-        }
-
-        // gets the handle from current terminal
-        static Handle from_terminal();
-
-#ifdef _WIN32
-        // TODO create new terminal windows (maybe on linux too?)
-#elif __linux__
-        // creates handle from a file descriptor
-        static Handle from_fd(int fd) {
-            return Handle(fd);
-        }
-#endif
-        const Handle& write(const std::string_view&) const;
-    };
-
     struct Position {
         int32_t x, y;
 
@@ -81,7 +50,14 @@ namespace libcli {
     struct Color {
         uint8_t r, g, b, a;
 
-        Color(uint32_t rgba)
+        Color()
+            : r(0)
+            , g(0)
+            , b(0)
+            , a(0xFF) {
+        }
+
+        explicit Color(uint32_t rgba)
             : r((rgba >> 24) & 0xFF)
             , g((rgba >> 16) & 0xFF)
             , b((rgba >> 8) & 0xFF)
@@ -112,7 +88,8 @@ namespace libcli {
     struct Cell {
         std::optional<std::variant<char, std::string_view>> character{};
 
-        std::optional<Color> fg_color{};
-        std::optional<Color> bg_color{};
+        // there are 16 palette colors on both windows and linux
+        std::optional<std::variant<uint8_t, Color>> fg_color{};
+        std::optional<std::variant<uint8_t, Color>> bg_color{};
     };
 }

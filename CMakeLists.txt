@@ -28,7 +28,12 @@ endif ()
 
 configure_file (src/version.hh.in ${PROJECT_BINARY_DIR}/include/libcli/version.hh @ONLY)
 
-add_library (libcli src/libcli.cc)
+add_library (libcli STATIC
+    src/libcli.cc
+    src/win32.cc
+    src/linux.cc
+    src/handle.cc
+)
 add_library (libcli::libcli ALIAS libcli)
 
 if (UNIX)

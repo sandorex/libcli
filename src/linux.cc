@@ -12,7 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "libcli/common.hh"
-#include "libcli/errors.hh"
+#ifdef __linux__
+
+#include "libcli/handle.hh"
 
 using namespace libcli;
+
+Handle::Handle()
+    : _handle(-1) {
+}
+
+Handle::Handle(const Handle& handle)
+    : _handle(handle._handle) {
+}
+
+Handle::Handle(const RawHandle& handle)
+    : _handle(handle) {
+}
+
+Handle::~Handle() {}
+
+#endif

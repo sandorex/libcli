@@ -12,8 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-include_directories(${PROJECT_SOURCE_DIR}/include)
+include_directories (${PROJECT_SOURCE_DIR}/include)
 
-add_executable(demo demo.cc)
+add_executable (demo_alternative_buffer alternative_buffer.cc)
+target_link_libraries (demo_alternative_buffer libcli)
 
-target_link_libraries(demo libcli)
+add_executable (demo demo.cc)
+target_link_libraries (demo libcli)

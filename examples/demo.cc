@@ -15,6 +15,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <string>
+#include <thread>
 
 #include <libcli/libcli.hh>
 
@@ -26,16 +27,48 @@ int main() {
     Handle handle;
 
     try {
-       handle = Handle::from_terminal();
+        handle = Handle::from_terminal();
     } catch(const std::exception& e) {
-       std::cout << e.what() << '\n';
-       return 1;
+        std::cout << e.what() << '\n';
+        return 1;
     }
+
+    // handle.enable_vt_mode();
+
     try {
-       handle.write(s);
+        handle.write("hello\n");
     } catch(const std::exception& e) {
-       std::cout << "ERROR: " << e.what() << '\n';
+        std::cout << "ERROR: " << e.what() << '\n';
     }
+
+    std::this_thread::sleep_for(std::chrono::seconds(5));
+
+    try {
+        handle.write("\x1b[?1049h");
+    } catch(const std::exception& e) {
+        std::cout << "ERROR: " << e.what() << '\n';
+    }
+
+    try {
+        handle.write("hello in buffer\n");
+    } catch(const std::exception& e) {
+        std::cout << "ERROR: " << e.what() << '\n';
+    }
+
+    std::this_thread::sleep_for(std::chrono::seconds(5));
+    // std::cout << "HANDLE: " << *handle << '\n';
+
+    try {
+        handle.write("\x1b[?1049l");
+    } catch(const std::exception& e) {
+        std::cout << "ERROR: " << e.what() << '\n';
+    }
+
+    // try {
+    //     handle.write(s);
+    // } catch(const std::exception& e) {
+    //     std::cout << "ERROR: " << e.what() << '\n';
+    // }
 
     return 0;
 }

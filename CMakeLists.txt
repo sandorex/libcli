@@ -44,6 +44,10 @@ if (UNIX)
 	message (STATUS "Using termcap: ${TERMCAP_LIBRARY}")
 endif ()
 
+add_subdirectory (${CMAKE_SOURCE_DIR}/vendor/unibilium)
+# TODO it seems that the header is not included by default??
+target_include_directories (unibilium PUBLIC ${CMAKE_SOURCE_DIR}/vendor/unibilium)
+
 # fixes utf8 for windows
 if (MSVC)
 	set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /utf-8")

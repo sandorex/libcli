@@ -19,3 +19,6 @@ target_link_libraries (demo_alternative_buffer libcli)
 
 add_executable (demo demo.cc)
 target_link_libraries (demo libcli)
+
+add_executable (test test.cc)
+target_link_libraries (test unibilium)

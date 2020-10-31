@@ -65,8 +65,8 @@ namespace libcli {
         // like on linux with full color support
         const Handle& set_vt_mode(bool) const;
 
-        const Handle& enable_vt_mode(bool) const { set_vt_mode(true); return *this; }
-        const Handle& disable_vt_mode(bool) const { set_vt_mode(false); return *this; }
+        const Handle& enable_vt_mode() const { set_vt_mode(true); return *this; }
+        const Handle& disable_vt_mode() const { set_vt_mode(false); return *this; }
 #elif __linux__
         // enables raw mode TODO..
         const Handle& set_raw_mode_mode(bool) const;
